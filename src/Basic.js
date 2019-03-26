@@ -2,13 +2,12 @@ const Circle = require('./Circle');
 const Line = require('./Line');
 const Text = require('./Text');
 const Arc = require('./Arc');
+const Polyline = require('./Polyline');
 
 class Basic{
 	
 	constructor() {
 		this.shapes = [];
-	    //this.shapes  = {};
-		//this.shapes.lines = [];
 	}
 	
 	toDxfString(){
@@ -81,6 +80,7 @@ class Basic{
 		this.addShape(new Text(x,y,lineheight,content,angle));
 		return this;
 	}
+	
 	/**
 	 * draw arc 
 	 * @param {number} x - circle x 
@@ -93,6 +93,17 @@ class Basic{
 		this.addShape(new Arc(x,y,r,startAn,endAn));
 		return this;
 	}
+	
+	/**
+	 * draw polyline
+	 * 
+	 * @param Array [] points - array like [[x,y],[x,y],...]
+ 	 */
+	drawPolyline(points){
+		this.addShape(new Polyline(points));
+		return this;
+	}
+	
 	/**
 	 * add shape to basic
 	 * @shape {object} shape - draw shape
