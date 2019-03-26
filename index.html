@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>js - DXF</title>
+    <script src="dist/bunble.js"></script>
+    <script>
+        var Basic = require('Basic');
+        window.onload = function()
+        {
+            d = new Basic();
+
+            /* d.drawText(10, 0, 10, 0, 'Hello World'); // draw text in the default layer named "0"
+            d.addLayer('l_green', Drawing.ACI.GREEN, 'CONTINUOUS');
+            d.setActiveLayer('l_green');
+            d.drawText(20, -70, 10, 0, 'go green!');
+
+            //or fluent
+            d.addLayer('l_yellow', Drawing.ACI.YELLOW, 'DOTTED')
+            .setActiveLayer('l_yellow')
+            .drawCircle(50, -30, 25); */
+			d.drawLine(100,100,1000,6000).drawLine(300,500,4000,6000).drawLine(900,600,4000,6000).drawCircle(400,500,1000).drawText(1000,3000,4000,"你好啊",0).drawArc(3000,5000,4000,0,180);
+
+            var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
+            document.getElementById('dxf').href = URL.createObjectURL(b);
+        }
+    </script>
+</head>
+<body>
+<a href="" id="dxf" download="demo.dxf">demo.dxf</a>
+</body>
+</html>

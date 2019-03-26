@@ -1,0 +1,18 @@
+{
+  "name": "dxf2013",
+  "version": "1.0.0",
+  "description": "js dxf writer",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "webpack --mode deveplopment",
+    "build": "webpack --mode production",
+		"bundle" : "browserify -r ./src/Basic.js:Basic > ./dist/bunble.js"
+  },
+  "keywords": [
+    "javascript",
+    "dxf"
+  ],
+  "author": "marina",
+  "license": "ISC"
+}
