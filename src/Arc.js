@@ -8,12 +8,12 @@ class Arc{
 		this.endAn = endAn;
 	}
 	
-	toDxfString(num){
+	toDxfString(num,name){
 		let s = "0\nARC\n";
 		s += "5\n"+num+"\n";
 		s += "330\n1F\n";
 		s += "100\nAcDbEntity\n";
-		s += "8\n0\n";
+		s += "8\n"+name+"\n";
 		s += "100\nAcDbCircle\n";
 		s += "10\n"+this.x + "\n20\n" + this.y +"\n30\n0\n";
 		s += "40\n"+ this.r + "\n100\nAcDbArc\n50\n"+this.startAn+"\n51\n"+this.endAn+"\n";

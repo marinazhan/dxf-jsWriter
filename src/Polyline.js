@@ -7,11 +7,11 @@ class Polyline{
 		this.pointNum = this.points.length;
 	}
 	
-	toDxfString(num)
+	toDxfString(num,name)
 	{
 	    //https://www.autodesk.com/techpubs/autocad/acad2000/dxf/polyline_dxf_06.htm
 	    let s = '0\nLWPOLYLINE\n';
-	    s += '5\n'+num+'\n330\n1F\n100\nAcDbEntity\n'+'8\n0\n';
+	    s += '5\n'+num+'\n330\n1F\n100\nAcDbEntity\n'+'8\n'+name+'\n';
 		s += '100\nAcDbPolyline\n';
 		s += '90\n'+this.pointNum+'\n';
 		s += '70\n0\n43\n0.0\n';

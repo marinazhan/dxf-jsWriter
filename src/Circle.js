@@ -5,13 +5,13 @@ class Circle{
 		this.radius = radius;
 	}
 	
-	toDxfString(num){
+	toDxfString(num,name){
 		
 		let s = '0\nCIRCLE\n';
 		s += '5\n'+num+'\n'
 		s += '330\n1F\n';
 		s += '100\nAcDbEntity\n';
-		s += '8\n0\n';
+		s += '8\n'+name+'\n';
 		s += '100\nAcDbCircle\n';
 	    s += '10\n'+this.x+'\n20\n'+this.y+'\n30\n0.0\n40\n'+this.radius+'\n';
 	    return s;

@@ -18,8 +18,19 @@
             d.addLayer('l_yellow', Drawing.ACI.YELLOW, 'DOTTED')
             .setActiveLayer('l_yellow')
             .drawCircle(50, -30, 25); */
-			d.drawLine(100,100,1000,6000).drawLine(300,500,4000,6000).drawLine(900,600,4000,6000).drawCircle(400,500,1000).drawText(1000,3000,4000,"你好啊",0).drawArc(3000,5000,4000,0,180);
-			d.drawPolyline([[1000,1000],[1000,2000],[2000,2000],[2000,1000],[3000,1000]]);
+			//d.drawText(10, 0, 10,  'Hello World',0); // draw text in the default layer named "0"
+			//d.addLayer('l_green', Drawing.ACI.GREEN);
+			//d.setActiveLayer('l_green');
+			//d.drawText(20, -70, 10, 0, 'go green!');
+			d.addLayer('l_red',Basic.ACI.RED).setActiveLayer('l_red').drawText(10, 0, 10,'Hello World',0);
+			//or fluent
+			d.addLayer('l_green', Basic.ACI.GREEN);
+			d.setActiveLayer('l_green');
+			d.drawText(20, -70, 10, 'go green!',0);
+			
+			//or fluent
+			d.addLayer('l_yellow', Basic.ACI.YELLOW).setActiveLayer('l_yellow').drawCircle(50, -30, 25);
+			
             var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
             document.getElementById('dxf').href = URL.createObjectURL(b);
         }

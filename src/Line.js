@@ -6,13 +6,13 @@ class Line{
 		this.y2 = y2;
 	}
 	
-	toDxfString(num){
+	toDxfString(num,name){
 		//https://www.autodesk.com/techpubs/autocad/acadr14/dxf/line_al_u05_c.htm
 		let s = '0\nLINE\n';
 		s += '5\n'+num+'\n'
 		s += '330\n1F\n';
 		s += '100\nAcDbEntity\n';
-		s += '8\n0\n';
+		s += '8\n'+name+'\n';
 		s += '100\nAcDbLine\n';
         //s += `8\n${this.layer.name}\n`;
         s += '10\n'+this.x1+'\n20\n'+this.y1+'\n30\n0.0\n';
