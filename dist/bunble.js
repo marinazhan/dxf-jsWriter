@@ -5,6 +5,7 @@ const Text = require('./Text');
 const Arc = require('./Arc');
 const Polyline = require('./Polyline');
 const Layer = require('./Layer');
+const Hatch = require('./Hatch');
 
 class Basic{
 	
@@ -94,6 +95,11 @@ class Basic{
  	 */
 	drawPolyline(points){
 		this.activeLayer.addShape(new Polyline(points));
+		return this;
+	}
+	
+	drawHatch(points){
+		this.activeLayer.addShape(new Hatch(points));
 		return this;
 	}
 	
@@ -411,7 +417,7 @@ Basic.LAYERS =
 ]
 
 module.exports = Basic;
-},{"./Arc":1,"./Circle":2,"./Layer":3,"./Line":4,"./Polyline":5,"./Text":6}],1:[function(require,module,exports){
+},{"./Arc":1,"./Circle":2,"./Hatch":3,"./Layer":4,"./Line":5,"./Polyline":6,"./Text":7}],1:[function(require,module,exports){
 class Arc{
 	
 	constructor(x,y,r,startAn,endAn) {
@@ -460,6 +466,35 @@ class Circle{
 
 module.exports = Circle;
 },{}],3:[function(require,module,exports){
+class Hatch{
+	
+	constructor(points) {
+	    
+		this.points = points;
+		this.pointsNum = points.length;
+		
+	}
+	
+	toDxfString(num,name){
+	    
+	    let s = '0\nHATCH\n';
+	    s += '5\n'+num+'\n330\n1F\n100\nAcDbEntity\n'+'8\n'+name+'\n';
+		s += "100\nAcDbHatch\n10\n0.0\n20\n0.0\n30\n0.0\n210\n0.0\n220\n0.0\n230\n1.0\n2\nSOLID\n70\n1\n71\n0\n91\n1\n92\n7\n72\n0\n73\n1\n";
+		s += '93\n'+this.pointsNum+'\n';
+		
+	    for (let i = 0; i < this.pointsNum; i++)
+	    {
+	        s += '10\n'+this.points[i][0]+'\n20\n'+this.points[i][1]+'\n';
+	    }
+		
+		s += '97\n1\n330\n0\n75\n1\n76\n1\n47\n2.680470542950764\n98\n1\n10\n3453.190575686195\n20\n1802.787515878135\n450\n0\n451\n0\n460\n0.0\n461\n0.0\n452\n0\n462\n0.0\n453\n2\n463\n0.0\n63\n3\n421\n255\n463\n1.0\n63\n2\n421\n16776960\n470\nLINEAR\n';
+		
+	    return s;
+	}
+}
+
+module.exports = Hatch;
+},{}],4:[function(require,module,exports){
 class Layer{
 	
 	constructor(name, colorNumber){
@@ -501,7 +536,7 @@ class Layer{
 	}
 }
 module.exports = Layer;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 class Line{
 	constructor(x1,y1,x2,y2) {
 		this.x1 = x1;
@@ -526,7 +561,7 @@ class Line{
 }
 
 module.exports = Line;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 class Polyline{
 	/**
 	 * @param {array} points - Array of points like [ [x1, y1], [x2, y2]... ]
@@ -555,7 +590,7 @@ class Polyline{
 }
 
 module.exports = Polyline;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 class Text{
 	constructor(x,y,lineheight,content,angle) {
 		this.x= x;

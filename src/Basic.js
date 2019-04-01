@@ -4,6 +4,7 @@ const Text = require('./Text');
 const Arc = require('./Arc');
 const Polyline = require('./Polyline');
 const Layer = require('./Layer');
+const Hatch = require('./Hatch');
 
 class Basic{
 	
@@ -93,6 +94,11 @@ class Basic{
  	 */
 	drawPolyline(points){
 		this.activeLayer.addShape(new Polyline(points));
+		return this;
+	}
+	
+	drawHatch(points){
+		this.activeLayer.addShape(new Hatch(points));
 		return this;
 	}
 	

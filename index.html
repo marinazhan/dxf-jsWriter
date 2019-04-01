@@ -8,30 +8,19 @@
         window.onload = function()
         {
             d = new Basic();
-
-            /* d.drawText(10, 0, 10, 0, 'Hello World'); // draw text in the default layer named "0"
-            d.addLayer('l_green', Drawing.ACI.GREEN, 'CONTINUOUS');
-            d.setActiveLayer('l_green');
-            d.drawText(20, -70, 10, 0, 'go green!');
-
-            //or fluent
-            d.addLayer('l_yellow', Drawing.ACI.YELLOW, 'DOTTED')
-            .setActiveLayer('l_yellow')
-            .drawCircle(50, -30, 25); */
-			//d.drawText(10, 0, 10,  'Hello World',0); // draw text in the default layer named "0"
-			//d.addLayer('l_green', Drawing.ACI.GREEN);
+			//d.addLayer('l_red',Basic.ACI.RED).setActiveLayer('l_red').drawText(10, 0, 10,'Hello World',0);
+			
+			//d.addLayer('l_green', Basic.ACI.GREEN);
 			//d.setActiveLayer('l_green');
-			//d.drawText(20, -70, 10, 0, 'go green!');
-			d.addLayer('l_red',Basic.ACI.RED).setActiveLayer('l_red').drawText(10, 0, 10,'Hello World',0);
-			//or fluent
-			d.addLayer('l_green', Basic.ACI.GREEN);
-			d.setActiveLayer('l_green');
-			d.drawText(20, -70, 10, 'go green!',0);
+			//d.drawText(20, -70, 10, 'go green!',0);
 			
 			//or fluent
-			d.addLayer('l_yellow', Basic.ACI.YELLOW).setActiveLayer('l_yellow').drawCircle(50, -30, 25);
-			
-            var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
+			//d.addLayer('l_yellow', Basic.ACI.YELLOW).setActiveLayer('l_yellow').drawCircle(50, -30, 25);
+			//hatch
+			d.addLayer("testHatch",Basic.ACI.GREEN).setActiveLayer('testHatch').drawHatch([[8947.821523725002,430.5419585745494],[6086.375589466303,3652.365261416032],[8947.821523725002,3652.365261416032]]).drawHatch([[100,100],[100,0],[0,0],[0,100]]);
+			d.drawText(20, -70, 10, '未命名',0);
+			d.drawCircle(50, -30, 25);
+			var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
             document.getElementById('dxf').href = URL.createObjectURL(b);
         }
     </script>
