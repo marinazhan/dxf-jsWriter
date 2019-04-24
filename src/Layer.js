@@ -28,14 +28,22 @@ class Layer{
 	    return this.shapes;
 	}
 	
-	shapeToString(layerNum){
-		let s = " ";
+	shapeToString(layerNum,imageDefArray){
+		let s = "";
+		let firstLine5 = (648*layerNum+25*i).toString(16);
 		for(let i=0;i<this.shapes.length;i++){
-			let firstLine5 = (648*layerNum+25*i).toString(16).toUpperCase();
-			//console.log(this.shapes[i].__proto__.constructor.name);
+			if(this.shapes[i].__proto__.constructor.name=="Image"){//图片
+				for(let j=0;j<imageDefArray.length;j++){
+					if(imageDefArray[j])
+				}
+				s += this.shapes[i].toDxfString(firstLine5,this.name,)
+				
+			} 
+			
 			s += this.shapes[i].toDxfString(firstLine5,this.name);
 		}  
 		return s;
 	}
+	
 }
 module.exports = Layer;

@@ -5,29 +5,25 @@ const Arc = require('./Arc');
 const Polyline = require('./Polyline');
 const Layer = require('./Layer');
 const Hatch = require('./Hatch');
+const Image = require('./Image');
+const ImageDef = require('./ImageDef');
 
 class Basic{
 	
 	constructor() {
-		
 		this.layers = {};
 		this.activeLayer = null;
-		/* for (let i = 0; i < Basic.LAYERS.length; i++){//默认0图层
-		    this.addLayer(Basic.LAYERS[i].name,Basic.LAYERS[i].colorNumber);
-		} 
-		this.setActiveLayer('0'); */
+		this.imageArray = [];
 	}
 	
 	
 	addLayer(name, colorNumber){
 	    this.layers[name] = new Layer(name, colorNumber);
-		console.log(this.layers)
 	    return this;
 	}
 	
 	setActiveLayer(name){
 	    this.activeLayer = this.layers[name];
-		//console.log(this.activeLayer);
 	    return this;
 	}
 	
@@ -73,6 +69,7 @@ class Basic{
 		return this;
 	}
 	
+	
 	/**
 	 * draw arc 
 	 * 
@@ -84,6 +81,7 @@ class Basic{
 	 */
 	drawArc(x,y,r,startAn,endAn){
 		this.activeLayer.addShape(new Arc(x,y,r,startAn,endAn));
+		
 		return this;
 	}
 	
@@ -101,15 +99,33 @@ class Basic{
 		this.activeLayer.addShape(new Hatch(points));
 		return this;
 	}
+	/**
+	 * insert image
+	 * 
+	 * @param {number} x - image lower left quarter x
+	 * @param {number} y - image lower left quarter y
+	 * @param {number} width - image width
+	 * @param {number} height - image height
+	 * @param {string} fileName - image fileName
+	 */
+	drawImage(x,y,width,height,fileName){
+		this.activeLayer.addShape(new Image(x,y,width,height,fileName));
+		this.imageArray.push(new ImageDef(width,height,fileName));
+		return this;
+	}
 	
 	toDxfString(){
 		let s = '';
 		
 		s += "0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1027\n9\n$ACADMAINTVER\n70\n125\n9\n$DWGCODEPAGE\n3\nANSI_936\n9\n$LASTSAVEDBY\n1\nAdministrator\n9\n$REQUIREDVERSIONS\n160\n0\n9\n$INSBASE\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$EXTMIN\n10\n1.000000000000000E+20\n20\n1.000000000000000E+20\n30\n1.000000000000000E+20\n9\n$EXTMAX\n10\n-1.000000000000000E+20\n20\n-1.000000000000000E+20\n30\n-1.000000000000000E+20\n9\n$LIMMIN\n10\n0.0\n20\n0.0\n9\n$LIMMAX\n10\n420.0\n20\n297.0\n9\n$ORTHOMODE\n70\n0\n9\n$REGENMODE\n70\n1\n9\n$FILLMODE\n70\n1\n9\n$QTEXTMODE\n70\n0\n9\n$MIRRTEXT\n70\n0\n9\n$LTSCALE\n40\n1.0\n9\n$ATTMODE\n70\n1\n9\n$TEXTSIZE\n40\n2.5\n9\n$TRACEWID\n40\n1.0\n9\n$TEXTSTYLE\n7\nStandard\n9\n$CLAYER\n8\n0\n9\n$CELTYPE\n6\nByLayer\n9\n$CECOLOR\n62\n256\n9\n$CELTSCALE\n40\n1.0\n9\n$DISPSILH\n70\n0\n9\n$DIMSCALE\n40\n1.0\n9\n$DIMASZ\n40\n2.5\n9\n$DIMEXO\n40\n0.625\n9\n$DIMDLI\n40\n3.75\n9\n$DIMRND\n40\n0.0\n9\n$DIMDLE\n40\n0.0\n9\n$DIMEXE\n40\n1.25\n9\n$DIMTP\n40\n0.0\n9\n$DIMTM\n40\n0.0\n9\n$DIMTXT\n40\n2.5\n9\n$DIMCEN\n40\n2.5\n9\n$DIMTSZ\n40\n0.0\n9\n$DIMTOL\n70\n0\n9\n$DIMLIM\n70\n0\n9\n$DIMTIH\n70\n0\n9\n$DIMTOH\n70\n0\n9\n$DIMSE1\n70\n0\n9\n$DIMSE2\n70\n0\n9\n$DIMTAD\n70\n1\n9\n$DIMZIN\n70\n8\n9\n$DIMBLK\n1\n\n9\n$DIMASO\n70\n1\n9\n$DIMSHO\n70\n1\n9\n$DIMPOST\n1\n\n9\n$DIMAPOST\n1\n\n9\n$DIMALT\n70\n0\n9\n$DIMALTD\n70\n3\n9\n$DIMALTF\n40\n0.03937007874016\n9\n$DIMLFAC\n40\n1.0\n9\n$DIMTOFL\n70\n1\n9\n$DIMTVP\n40\n0.0\n9\n$DIMTIX\n70\n0\n9\n$DIMSOXD\n70\n0\n9\n$DIMSAH\n70\n0\n9\n$DIMBLK1\n1\n\n9\n$DIMBLK2\n1\n\n9\n$DIMSTYLE\n2\nISO-25\n9\n$DIMCLRD\n70\n0\n9\n$DIMCLRE\n70\n0\n9\n$DIMCLRT\n70\n0\n9\n$DIMTFAC\n40\n1.0\n9\n$DIMGAP\n40\n0.625\n9\n$DIMJUST\n70\n0\n9\n$DIMSD1\n70\n0\n9\n$DIMSD2\n70\n0\n9\n$DIMTOLJ\n70\n0\n9\n$DIMTZIN\n70\n8\n9\n$DIMALTZ\n70\n0\n9\n$DIMALTTZ\n70\n0\n9\n$DIMUPT\n70\n0\n9\n$DIMDEC\n70\n2\n9\n$DIMTDEC\n70\n2\n9\n$DIMALTU\n70\n2\n9\n$DIMALTTD\n70\n3\n9\n$DIMTXSTY\n7\nStandard\n9\n$DIMAUNIT\n70\n0\n9\n$DIMADEC\n70\n0\n9\n$DIMALTRND\n40\n0.0\n9\n$DIMAZIN\n70\n0\n9\n$DIMDSEP\n70\n44\n9\n$DIMATFIT\n70\n3\n9\n$DIMFRAC\n70\n0\n9\n$DIMLDRBLK\n1\n\n9\n$DIMLUNIT\n70\n2\n9\n$DIMLWD\n70\n-2\n9\n$DIMLWE\n70\n-2\n9\n$DIMTMOVE\n70\n0\n9\n$DIMFXL\n40\n1.0\n9\n$DIMFXLON\n70\n0\n9\n$DIMJOGANG\n40\n0.7853981633974483\n9\n$DIMTFILL\n70\n0\n9\n$DIMTFILLCLR\n70\n0\n9\n$DIMARCSYM\n70\n0\n9\n$DIMLTYPE\n6\n\n9\n$DIMLTEX1\n6\n\n9\n$DIMLTEX2\n6\n\n9\n$DIMTXTDIRECTION\n70\n0\n9\n$LUNITS\n70\n2\n9\n$LUPREC\n70\n4\n9\n$SKETCHINC\n40\n1.0\n9\n$FILLETRAD\n40\n0.0\n9\n$AUNITS\n70\n0\n9\n$AUPREC\n70\n0\n9\n$MENU\n1\n.\n9\n$ELEVATION\n40\n0.0\n9\n$PELEVATION\n40\n0.0\n9\n$THICKNESS\n40\n0.0\n9\n$LIMCHECK\n70\n0\n9\n$CHAMFERA\n40\n0.0\n9\n$CHAMFERB\n40\n0.0\n9\n$CHAMFERC\n40\n0.0\n9\n$CHAMFERD\n40\n0.0\n9\n$SKPOLY\n70\n0\n9\n$TDCREATE\n40\n2458572.445312500\n9\n$TDUCREATE\n40\n2458572.111979167\n9\n$TDUPDATE\n40\n2458572.456840278\n9\n$TDUUPDATE\n40\n2458572.123506945\n9\n$TDINDWG\n40\n0.0115277778\n9\n$TDUSRTIMER\n40\n0.0115277778\n9\n$USRTIMER\n70\n1\n9\n$ANGBASE\n50\n0.0\n9\n$ANGDIR\n70\n0\n9\n$PDMODE\n70\n0\n9\n$PDSIZE\n40\n0.0\n9\n$PLINEWID\n40\n0.0\n9\n$SPLFRAME\n70\n0\n9\n$SPLINETYPE\n70\n6\n9\n$SPLINESEGS\n70\n8\n9\n$HANDSEED\n5\n2A2\n9\n$SURFTAB1\n70\n6\n9\n$SURFTAB2\n70\n6\n9\n$SURFTYPE\n70\n6\n9\n$SURFU\n70\n6\n9\n$SURFV\n70\n6\n9\n$UCSBASE\n2\n\n9\n$UCSNAME\n2\n\n9\n$UCSORG\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSXDIR\n10\n1.0\n20\n0.0\n30\n0.0\n9\n$UCSYDIR\n10\n0.0\n20\n1.0\n30\n0.0\n9\n$UCSORTHOREF\n2\n\n9\n$UCSORTHOVIEW\n70\n0\n9\n$UCSORGTOP\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSORGBOTTOM\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSORGLEFT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSORGRIGHT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSORGFRONT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$UCSORGBACK\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSBASE\n2\n\n9\n$PUCSNAME\n2\n\n9\n$PUCSORG\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSXDIR\n10\n1.0\n20\n0.0\n30\n0.0\n9\n$PUCSYDIR\n10\n0.0\n20\n1.0\n30\n0.0\n9\n$PUCSORTHOREF\n2\n\n9\n$PUCSORTHOVIEW\n70\n0\n9\n$PUCSORGTOP\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSORGBOTTOM\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSORGLEFT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSORGRIGHT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSORGFRONT\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PUCSORGBACK\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$USERI1\n70\n0\n9\n$USERI2\n70\n0\n9\n$USERI3\n70\n0\n9\n$USERI4\n70\n0\n9\n$USERI5\n70\n0\n9\n$USERR1\n40\n0.0\n9\n$USERR2\n40\n0.0\n9\n$USERR3\n40\n0.0\n9\n$USERR4\n40\n0.0\n9\n$USERR5\n40\n0.0\n9\n$WORLDVIEW\n70\n1\n9\n$SHADEDGE\n70\n3\n9\n$SHADEDIF\n70\n70\n9\n$TILEMODE\n70\n1\n9\n$MAXACTVP\n70\n64\n9\n$PINSBASE\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PLIMCHECK\n70\n0\n9\n$PEXTMIN\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PEXTMAX\n10\n0.0\n20\n0.0\n30\n0.0\n9\n$PLIMMIN\n10\n0.0\n20\n0.0\n9\n$PLIMMAX\n10\n12.0\n20\n9.0\n9\n$UNITMODE\n70\n0\n9\n$VISRETAIN\n70\n1\n9\n$PLINEGEN\n70\n0\n9\n$PSLTSCALE\n70\n1\n9\n$TREEDEPTH\n70\n3020\n9\n$CMLSTYLE\n2\nStandard\n9\n$CMLJUST\n70\n0\n9\n$CMLSCALE\n40\n20.0\n9\n$PROXYGRAPHICS\n70\n1\n9\n$MEASUREMENT\n70\n1\n9\n$CELWEIGHT\n370\n-1\n9\n$ENDCAPS\n280\n0\n9\n$JOINSTYLE\n280\n0\n9\n$LWDISPLAY\n290\n0\n9\n$INSUNITS\n70\n4\n9\n$HYPERLINKBASE\n1\n\n9\n$STYLESHEET\n1\n\n9\n$XEDIT\n290\n1\n9\n$CEPSNTYPE\n380\n0\n9\n$PSTYLEMODE\n290\n1\n9\n$FINGERPRINTGUID\n2\n{DDD6D97E-BD55-224C-BA1C-3495DAAEF97F}\n9\n$VERSIONGUID\n2\n{7D5E9FB8-EB7E-244F-8BB9-1B0537338A97}\n9\n$EXTNAMES\n290\n1\n9\n$PSVPSCALE\n40\n0.0\n9\n$OLESTARTUP\n290\n0\n9\n$SORTENTS\n280\n127\n9\n$INDEXCTL\n280\n0\n9\n$HIDETEXT\n280\n1\n9\n$XCLIPFRAME\n280\n2\n9\n$HALOGAP\n280\n0\n9\n$OBSCOLOR\n70\n257\n9\n$OBSLTYPE\n280\n0\n9\n$INTERSECTIONDISPLAY\n280\n0\n9\n$INTERSECTIONCOLOR\n70\n257\n9\n$DIMASSOC\n280\n2\n9\n$PROJECTNAME\n1\n\n9\n$CAMERADISPLAY\n290\n0\n9\n$LENSLENGTH\n40\n50.0\n9\n$CAMERAHEIGHT\n40\n0.0\n9\n$STEPSPERSEC\n40\n2.0\n9\n$STEPSIZE\n40\n6.0\n9\n$3DDWFPREC\n40\n2.0\n9\n$PSOLWIDTH\n40\n5.0\n9\n$PSOLHEIGHT\n40\n80.0\n9\n$LOFTANG1\n40\n1.570796326794896\n9\n$LOFTANG2\n40\n1.570796326794896\n9\n$LOFTMAG1\n40\n0.0\n9\n$LOFTMAG2\n40\n0.0\n9\n$LOFTPARAM\n70\n7\n9\n$LOFTNORMALS\n280\n1\n9\n$LATITUDE\n40\n37.795\n9\n$LONGITUDE\n40\n-122.394\n9\n$NORTHDIRECTION\n40\n0.0\n9\n$TIMEZONE\n70\n-8000\n9\n$LIGHTGLYPHDISPLAY\n280\n1\n9\n$TILEMODELIGHTSYNCH\n280\n1\n9\n$CMATERIAL\n347\nEC\n9\n$SOLIDHIST\n280\n0\n9\n$SHOWHIST\n280\n1\n9\n$DWFFRAME\n280\n2\n9\n$DGNFRAME\n280\n0\n9\n$REALWORLDSCALE\n290\n1\n9\n$INTERFERECOLOR\n62\n1\n9\n$INTERFEREOBJVS\n345\nF9\n9\n$INTERFEREVPVS\n346\nF6\n9\n$CSHADOW\n280\n0\n9\n$SHADOWPLANELOCATION\n40\n0.0\n0\nENDSEC\n0\nSECTION\n2\nCLASSES\n0\nCLASS\n1\nACDBDICTIONARYWDFLT\n2\nAcDbDictionaryWithDefault\n3\nObjectDBX Classes\n90\n0\n91\n1\n280\n0\n281\n0\n0\nCLASS\n1\nDICTIONARYVAR\n2\nAcDbDictionaryVar\n3\nObjectDBX Classes\n90\n0\n91\n11\n280\n0\n281\n0\n0\nCLASS\n1\nTABLESTYLE\n2\nAcDbTableStyle\n3\nObjectDBX Classes\n90\n4095\n91\n1\n280\n0\n281\n0\n0\nCLASS\n1\nMATERIAL\n2\nAcDbMaterial\n3\nObjectDBX Classes\n90\n1153\n91\n3\n280\n0\n281\n0\n0\nCLASS\n1\nVISUALSTYLE\n2\nAcDbVisualStyle\n3\nObjectDBX Classes\n90\n4095\n91\n24\n280\n0\n281\n0\n0\nCLASS\n1\nSCALE\n2\nAcDbScale\n3\nObjectDBX Classes\n90\n1153\n91\n17\n280\n0\n281\n0\n0\nCLASS\n1\nMLEADERSTYLE\n2\nAcDbMLeaderStyle\n3\nACDB_MLEADERSTYLE_CLASS\n90\n4095\n91\n2\n280\n0\n281\n0\n0\nCLASS\n1\nCELLSTYLEMAP\n2\nAcDbCellStyleMap\n3\nObjectDBX Classes\n90\n1152\n91\n1\n280\n0\n281\n0\n0\nCLASS\n1\nEXACXREFPANELOBJECT\n2\nExAcXREFPanelObject\n3\nEXAC_ESW\n90\n1025\n91\n0\n280\n0\n281\n0\n0\nCLASS\n1\nNPOCOLLECTION\n2\nAcDbImpNonPersistentObjectsCollection\n3\nObjectDBX Classes\n90\n1153\n91\n0\n280\n0\n281\n0\n0\nCLASS\n1\nLAYER_INDEX\n2\nAcDbLayerIndex\n3\nObjectDBX Classes\n90\n0\n91\n0\n280\n0\n281\n0\n0\nCLASS\n1\nSPATIAL_INDEX\n2\nAcDbSpatialIndex\n3\nObjectDBX Classes\n90\n0\n91\n0\n280\n0\n281\n0\n0\nCLASS\n1\nIDBUFFER\n2\nAcDbIdBuffer\n3\nObjectDBX Classes\n90\n0\n91\n0\n280\n0\n281\n0\n0\nCLASS\n1\nACDBSECTIONVIEWSTYLE\n2\nAcDbSectionViewStyle\n3\nObjectDBX Classes\n90\n1025\n91\n1\n280\n0\n281\n0\n0\nCLASS\n1\nACDBDETAILVIEWSTYLE\n2\nAcDbDetailViewStyle\n3\nObjectDBX Classes\n90\n1025\n91\n1\n280\n0\n281\n0\n0\nENDSEC\n0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nVPORT\n5\n8\n330\n0\n100\nAcDbSymbolTable\n70\n1\n1001\nACAD\n1000\nDbSaveVer\n1071\n105\n0\nVPORT\n5\nEA\n330\n8\n100\nAcDbSymbolTableRecord\n100\nAcDbViewportTableRecord\n2\n*Active\n70\n0\n10\n0.0\n20\n0.0\n11\n1.0\n21\n1.0\n12\n3327.895307793918\n22\n1440.684066268786\n13\n0.0\n23\n0.0\n14\n10.0\n24\n10.0\n15\n10.0\n25\n10.0\n16\n0.0\n26\n0.0\n36\n1.0\n17\n0.0\n27\n0.0\n37\n0.0\n40\n2560.967279253777\n41\n1.949874686716792\n42\n50.0\n43\n0.0\n44\n0.0\n50\n0.0\n51\n0.0\n71\n0\n72\n1000\n73\n1\n74\n3\n75\n0\n76\n1\n77\n0\n78\n0\n281\n0\n65\n1\n110\n0.0\n120\n0.0\n130\n0.0\n111\n1.0\n121\n0.0\n131\n0.0\n112\n0.0\n122\n1.0\n132\n0.0\n79\n0\n146\n0.0\n348\nF5\n60\n3\n61\n5\n292\n1\n282\n1\n141\n0.0\n142\n0.0\n63\n250\n421\n3355443\n1001\nACAD_NAV_VCDISPLAY\n1070\n3\n0\nENDTAB\n0\nTABLE\n2\nLTYPE\n5\n5\n330\n0\n100\nAcDbSymbolTable\n70\n1\n0\nLTYPE\n5\n14\n330\n5\n100\nAcDbSymbolTableRecord\n100\nAcDbLinetypeTableRecord\n2\nByBlock\n70\n0\n3\n\n72\n65\n73\n0\n40\n0.0\n0\nLTYPE\n5\n15\n330\n5\n100\nAcDbSymbolTableRecord\n100\nAcDbLinetypeTableRecord\n2\nByLayer\n70\n0\n3\n\n72\n65\n73\n0\n40\n0.0\n0\nLTYPE\n5\n16\n330\n5\n100\nAcDbSymbolTableRecord\n100\nAcDbLinetypeTableRecord\n2\nContinuous\n70\n0\n3\nSolid line\n72\n65\n73\n0\n40\n0.0\n0\nENDTAB\n0\nTABLE\n2\nLAYER\n5\n2\n330\n0\n100\nAcDbSymbolTable\n0\nLAYER\n5\n10\n330\n2\n100\nAcDbSymbolTableRecord\n100\nAcDbLayerTableRecord\n2\n0\n70\n0\n62\n7\n6\nContinuous\n370\n-3\n390\nF\n347\nEE\n348\n0\n";		
 		
+		//write Layer
 		let layerIndexNum = 641;
+		let imgDefNum = 0;
+		
+		
+		//layerNum 
 		for (let layerName in this.layers){
-			console.log(layerIndexNum);
 			s += this.layers[layerName].toDxfString(layerIndexNum.toString(16));
 			if(layerIndexNum==641){
 				layerIndexNum+=4;
@@ -119,12 +135,26 @@ class Basic{
 			}
 		}
 		
+		//begin number of imgDef
+		imgDefNum = (648*(layerIndexNum + 5)).toString(16);//躲避过所有的entities
+		
+		//imgdef own codeFive 
+		for(let i=0; i<imageArray.length; i++){
+			var imageDefObject = imageDefArray[i];
+			imageDefObject.codeFive = imgDefNum;
+			imgDefNum++;
+		}
+		
+		console.log(imageArray);
+		
+		//write entites
 		s+='0\nENDTAB\n0\nTABLE\n2\nSTYLE\n5\n3\n330\n0\n100\nAcDbSymbolTable\n70\n2\n0\nSTYLE\n5\n11\n330\n3\n100\nAcDbSymbolTableRecord\n100\nAcDbTextStyleTableRecord\n2\nStandard\n70\n0\n40\n0.0\n41\n1.0\n50\n0.0\n71\n0\n42\n2.5\n3\narial.ttf\n4\n\n1001\nACAD\n1000\nArial\n1071\n34\n0\nSTYLE\n5\n132\n330\n3\n100\nAcDbSymbolTableRecord\n100\nAcDbTextStyleTableRecord\n2\nAnnotative\n70\n0\n40\n0.0\n41\n1.0\n50\n0.0\n71\n0\n42\n2.5\n3\narial.ttf\n4\n\n1001\nAcadAnnotative\n1000\nAnnotativeData\n1002\n{\n1070\n1\n1070\n1\n1002\n}\n1001\nACAD\n1000\nArial\n1071\n34\n0\nENDTAB\n0\nTABLE\n2\nVIEW\n5\n6\n330\n0\n100\nAcDbSymbolTable\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nUCS\n5\n7\n330\n0\n100\nAcDbSymbolTable\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nAPPID\n5\n9\n330\n0\n100\nAcDbSymbolTable\n70\n11\n0\nAPPID\n5\n12\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD\n70\n0\n0\nAPPID\n5\n9E\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_PSEXT\n70\n0\n0\nAPPID\n5\n133\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcadAnnoPO\n70\n0\n0\nAPPID\n5\n134\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcadAnnotative\n70\n0\n0\nAPPID\n5\n135\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_DSTYLE_DIMJAG\n70\n0\n0\nAPPID\n5\n136\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_DSTYLE_DIMTALN\n70\n0\n0\nAPPID\n5\n165\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_MLEADERVER\n70\n0\n0\nAPPID\n5\n217\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_NAV_VCDISPLAY\n70\n0\n0\nAPPID\n5\n282\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcAecLayerStandard\n70\n0\n0\nAPPID\n5\n283\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcCmTransparency\n70\n0\n0\nAPPID\n5\n284\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_EXEMPT_FROM_CAD_STANDARDS\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nDIMSTYLE\n5\nA\n330\n0\n100\nAcDbSymbolTable\n70\n4\n100\nAcDbDimStyleTable\n71\n2\n340\n27\n340\n137\n0\nDIMSTYLE\n105\n1B0\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nStandard\n70\n0\n340\n11\n0\nDIMSTYLE\n105\n137\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nAnnotative\n70\n0\n40\n0.0\n41\n2.5\n42\n0.625\n43\n3.75\n44\n1.25\n73\n0\n74\n0\n77\n1\n78\n8\n140\n2.5\n141\n2.5\n143\n0.03937007874016\n147\n0.625\n171\n3\n172\n1\n271\n2\n272\n2\n274\n3\n278\n44\n283\n0\n284\n8\n340\n11\n1001\nAcadAnnotative\n1000\nAnnotativeData\n1002\n{\n1070\n1\n1070\n1\n1002\n}\n1001\nACAD_DSTYLE_DIMJAG\n1070\n388\n1040\n1.5\n1001\nACAD_DSTYLE_DIMTALN\n1070\n392\n1070\n0\n0\nDIMSTYLE\n105\n27\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nISO-25\n70\n0\n41\n2.5\n42\n0.625\n43\n3.75\n44\n1.25\n73\n0\n74\n0\n77\n1\n78\n8\n140\n2.5\n141\n2.5\n143\n0.03937007874016\n147\n0.625\n171\n3\n172\n1\n271\n2\n272\n2\n274\n3\n278\n44\n283\n0\n284\n8\n340\n11\n0\nENDTAB\n0\nTABLE\n2\nBLOCK_RECORD\n5\n1\n330\n0\n100\nAcDbSymbolTable\n70\n2\n0\nBLOCK_RECORD\n5\n1F\n102\n{ACAD_XDICTIONARY\n360\n1CE\n102\n}\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Model_Space\n340\n22\n70\n0\n280\n1\n281\n0\n0\nBLOCK_RECORD\n5\nD2\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Paper_Space\n340\nD3\n70\n0\n280\n1\n281\n0\n0\nBLOCK_RECORD\n5\nD6\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Paper_Space0\n340\nD7\n70\n0\n280\n1\n281\n0\n0\nENDTAB\n0\nENDSEC\n0\nSECTION\n2\nBLOCKS\n0\nBLOCK\n5\n20\n330\n1F\n100\nAcDbEntity\n8\n0\n100\nAcDbBlockBegin\n2\n*Model_Space\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Model_Space\n1\n\n0\nENDBLK\n5\n21\n330\n1F\n100\nAcDbEntity\n8\n0\n100\nAcDbBlockEnd\n0\nBLOCK\n5\nD4\n330\nD2\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockBegin\n2\n*Paper_Space\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Paper_Space\n1\n\n0\nENDBLK\n5\nD5\n330\nD2\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockEnd\n0\nBLOCK\n5\nD8\n330\nD6\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockBegin\n2\n*Paper_Space0\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Paper_Space0\n1\n\n0\nENDBLK\n5\nD9\n330\nD6\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockEnd\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n';
 		let layerNum = 1;
+		let imageDefArray = [];
+		
 		for (let layerName in this.layers){
-			
 		    let layer = this.layers[layerName];
-		    s += layer.shapeToString(layerNum);
+		    s += layer.shapeToString(layerNum,this.imageArray);
 			layerNum++;
 		    // let shapes = layer.getShapes();
 		}
@@ -134,7 +164,14 @@ class Basic{
 		
 		s+='%<\\AcVarViewDetailId>%(%<\\AcVarViewScale\\f"%sn">%)\n';
 		
-		s+='71\n4\n340\n16\n90\n25\n62\n256\n340\n16\n90\n25\n62\n256\n280\n0\n0\nLAYOUT\n5\n22\n102\n{ACAD_XDICTIONARY\n360\n205\n102\n}\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\nnone_device\n4\nISO_A4_(210.00_x_297.00_MM)\n6\n\n40\n7.5\n41\n20.0\n42\n7.5\n43\n20.0\n44\n210.0\n45\n297.0\n46\n11.54999923706054\n47\n-13.65000009536743\n48\n0.0\n49\n0.0\n140\n0.0\n141\n0.0\n142\n1.0\n143\n8.704084754739808\n70\n11952\n72\n1\n73\n0\n74\n0\n7\n\n75\n0\n147\n0.1148885871608098\n76\n0\n77\n2\n78\n300\n148\n0.0\n149\n0.0\n100\nAcDbLayout\n1\nModel\n70\n1\n71\n0\n10\n0.0\n20\n0.0\n11\n12.0\n21\n9.0\n12\n0.0\n22\n0.0\n32\n0.0\n14\n0.0\n24\n0.0\n34\n0.0\n15\n0.0\n25\n0.0\n35\n0.0\n146\n0.0\n13\n0.0\n23\n0.0\n33\n0.0\n16\n1.0\n26\n0.0\n36\n0.0\n17\n0.0\n27\n1.0\n37\n0.0\n76\n0\n330\n1F\n331\nEA\n1001\nACAD_PSEXT\n1000\nNone\n1000\nNone\n1000\nNotapplicable\n1000\nThelayoutwillnotbeplottedunlessanewplotterconfigurationnameisselected.\n1070\n0\n0\nLAYOUT\n5\nD3\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\n';
+		s+='71\n4\n340\n16\n90\n25\n62\n256\n340\n16\n90\n25\n62\n256\n280\n0\n';
+		
+		//插入图片def
+		for(let i=0; i<imageArray.length; i++){
+			let currentImageDef = imageDefArray[i];
+			s += currentImageDef.imageToDxfString();
+		}
+		s += '0\nLAYOUT\n5\n22\n102\n{ACAD_XDICTIONARY\n360\n205\n102\n}\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\nnone_device\n4\nISO_A4_(210.00_x_297.00_MM)\n6\n\n40\n7.5\n41\n20.0\n42\n7.5\n43\n20.0\n44\n210.0\n45\n297.0\n46\n11.54999923706054\n47\n-13.65000009536743\n48\n0.0\n49\n0.0\n140\n0.0\n141\n0.0\n142\n1.0\n143\n8.704084754739808\n70\n11952\n72\n1\n73\n0\n74\n0\n7\n\n75\n0\n147\n0.1148885871608098\n76\n0\n77\n2\n78\n300\n148\n0.0\n149\n0.0\n100\nAcDbLayout\n1\nModel\n70\n1\n71\n0\n10\n0.0\n20\n0.0\n11\n12.0\n21\n9.0\n12\n0.0\n22\n0.0\n32\n0.0\n14\n0.0\n24\n0.0\n34\n0.0\n15\n0.0\n25\n0.0\n35\n0.0\n146\n0.0\n13\n0.0\n23\n0.0\n33\n0.0\n16\n1.0\n26\n0.0\n36\n0.0\n17\n0.0\n27\n1.0\n37\n0.0\n76\n0\n330\n1F\n331\nEA\n1001\nACAD_PSEXT\n1000\nNone\n1000\nNone\n1000\nNotapplicable\n1000\nThelayoutwillnotbeplottedunlessanewplotterconfigurationnameisselected.\n1070\n0\n0\nLAYOUT\n5\nD3\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\n';
 		
 		s+='C:\\DocumentsandSettings\\basas\\ApplicationData\\Autodesk\\AutoCAD2005\\R16.1\\enu\\plotters\\DefaultWindowsSystemPrinter.pc3\n';
 		

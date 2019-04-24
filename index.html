@@ -3,6 +3,8 @@
     <meta charset="utf-8">
     <title>js - DXF</title>
     <script src="dist/bunble.js"></script>
+	<script type="text/javascript" src="src/FileSaver.js"></script>
+	<script type="text/javascript" src="src/jszip.min.js"></script>
     <script>
         var Basic = require('Basic');
         window.onload = function()
@@ -20,8 +22,20 @@
 			d.addLayer("testHatch",Basic.ACI.GREEN).setActiveLayer('testHatch').drawHatch([[8947.821523725002,430.5419585745494],[6086.375589466303,3652.365261416032],[8947.821523725002,3652.365261416032]]).drawHatch([[100,100],[100,0],[0,0],[0,100]]);
 			d.drawText(20, -70, 10, '未命名',0);
 			d.drawCircle(50, -30, 25);
-			var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
-            document.getElementById('dxf').href = URL.createObjectURL(b);
+			/* var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
+            document.getElementById('dxf').href = URL.createObjectURL(b); */
+			var zip = new JSZip();
+			
+			zip.file("Hello.dxf",d.toDxfString());
+			
+			var txtFolder = zip.folder("file");
+			
+			txtFolder.file("hello1.txt","no 996");
+			
+			zip.generateAsync({type:"blob"}).then(function(content){
+				saveAs(content,"example2.zip"); 
+			});
+			
         }
     </script>
 </head>
