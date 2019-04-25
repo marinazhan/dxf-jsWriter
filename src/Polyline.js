@@ -1,6 +1,6 @@
 class Polyline{
 	/**
-	 * @param {array} points - Array of points like [ [x1, y1], [x2, y2]... ]
+	 * @param [array] points - Array of points like [ [x1, y1], [x2, y2]... ]
 	 */
 	constructor(points) {
 	    this.points = points;

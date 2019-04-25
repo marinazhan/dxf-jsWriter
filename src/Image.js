@@ -4,7 +4,7 @@ class Image{
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.name = this.name;
+		this.name = name;
 		/* this.imgDef = imgDef; */
 	}
 	

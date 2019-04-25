@@ -1,10 +1,8 @@
 class Hatch{
 	
 	constructor(points) {
-	    
 		this.points = points;
 		this.pointsNum = points.length;
-		
 	}
 	
 	toDxfString(num,name){
@@ -14,8 +12,7 @@ class Hatch{
 		s += "100\nAcDbHatch\n10\n0.0\n20\n0.0\n30\n0.0\n210\n0.0\n220\n0.0\n230\n1.0\n2\nSOLID\n70\n1\n71\n0\n91\n1\n92\n7\n72\n0\n73\n1\n";
 		s += '93\n'+this.pointsNum+'\n';
 		
-	    for (let i = 0; i < this.pointsNum; i++)
-	    {
+	    for (let i = 0; i < this.pointsNum; i++){
 	        s += '10\n'+this.points[i][0]+'\n20\n'+this.points[i][1]+'\n';
 	    }
 		

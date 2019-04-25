@@ -30,18 +30,26 @@ class Layer{
 	
 	shapeToString(layerNum,imageDefArray){
 		let s = "";
-		let firstLine5 = (648*layerNum+25*i).toString(16);
+		
 		for(let i=0;i<this.shapes.length;i++){
+			let firstLine5 = (648*layerNum+25*i).toString(16);
 			if(this.shapes[i].__proto__.constructor.name=="Image"){//图片
+				//console.log("我是图片");
+				//console.log(imageDefArray);
 				for(let j=0;j<imageDefArray.length;j++){
-					if(imageDefArray[j])
+					//console.log("数组名字",imageDefArray[j].fileName);
+					//console.log("image名字",this.shapes[i].name);
+					if(imageDefArray[j].fileName==this.shapes[i].name){
+						//console.log("我们都一样，都一样");
+						s += this.shapes[i].toDxfString(firstLine5,this.name,imageDefArray[j].codeFive);
+					}
 				}
-				s += this.shapes[i].toDxfString(firstLine5,this.name,)
-				
-			} 
-			
-			s += this.shapes[i].toDxfString(firstLine5,this.name);
-		}  
+			}
+			else{
+				s += this.shapes[i].toDxfString(firstLine5,this.name);
+			}
+		} 
+		 
 		return s;
 	}
 	

@@ -69,10 +69,8 @@ class Basic{
 		return this;
 	}
 	
-	
 	/**
 	 * draw arc 
-	 * 
 	 * @param {number} x - circle x 
 	 * @param {number} y - circle y
 	 * @param {number} r - circle radius
@@ -121,7 +119,7 @@ class Basic{
 		
 		//write Layer
 		let layerIndexNum = 641;
-		let imgDefNum = 0;
+		let imgDefNum = "";
 		
 		
 		//layerNum 
@@ -139,21 +137,20 @@ class Basic{
 		imgDefNum = (648*(layerIndexNum + 5)).toString(16);//躲避过所有的entities
 		
 		//imgdef own codeFive 
-		for(let i=0; i<imageArray.length; i++){
-			var imageDefObject = imageDefArray[i];
+		for(let i=0; i<this.imageArray.length; i++){
+			var imageDefObject = this.imageArray[i];
 			imageDefObject.codeFive = imgDefNum;
-			imgDefNum++;
+			imgDefNum = (parseInt(imgDefNum,16) + 1).toString(16);
 		}
-		
-		console.log(imageArray);
-		
 		//write entites
 		s+='0\nENDTAB\n0\nTABLE\n2\nSTYLE\n5\n3\n330\n0\n100\nAcDbSymbolTable\n70\n2\n0\nSTYLE\n5\n11\n330\n3\n100\nAcDbSymbolTableRecord\n100\nAcDbTextStyleTableRecord\n2\nStandard\n70\n0\n40\n0.0\n41\n1.0\n50\n0.0\n71\n0\n42\n2.5\n3\narial.ttf\n4\n\n1001\nACAD\n1000\nArial\n1071\n34\n0\nSTYLE\n5\n132\n330\n3\n100\nAcDbSymbolTableRecord\n100\nAcDbTextStyleTableRecord\n2\nAnnotative\n70\n0\n40\n0.0\n41\n1.0\n50\n0.0\n71\n0\n42\n2.5\n3\narial.ttf\n4\n\n1001\nAcadAnnotative\n1000\nAnnotativeData\n1002\n{\n1070\n1\n1070\n1\n1002\n}\n1001\nACAD\n1000\nArial\n1071\n34\n0\nENDTAB\n0\nTABLE\n2\nVIEW\n5\n6\n330\n0\n100\nAcDbSymbolTable\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nUCS\n5\n7\n330\n0\n100\nAcDbSymbolTable\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nAPPID\n5\n9\n330\n0\n100\nAcDbSymbolTable\n70\n11\n0\nAPPID\n5\n12\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD\n70\n0\n0\nAPPID\n5\n9E\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_PSEXT\n70\n0\n0\nAPPID\n5\n133\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcadAnnoPO\n70\n0\n0\nAPPID\n5\n134\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcadAnnotative\n70\n0\n0\nAPPID\n5\n135\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_DSTYLE_DIMJAG\n70\n0\n0\nAPPID\n5\n136\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_DSTYLE_DIMTALN\n70\n0\n0\nAPPID\n5\n165\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_MLEADERVER\n70\n0\n0\nAPPID\n5\n217\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_NAV_VCDISPLAY\n70\n0\n0\nAPPID\n5\n282\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcAecLayerStandard\n70\n0\n0\nAPPID\n5\n283\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nAcCmTransparency\n70\n0\n0\nAPPID\n5\n284\n330\n9\n100\nAcDbSymbolTableRecord\n100\nAcDbRegAppTableRecord\n2\nACAD_EXEMPT_FROM_CAD_STANDARDS\n70\n0\n0\nENDTAB\n0\nTABLE\n2\nDIMSTYLE\n5\nA\n330\n0\n100\nAcDbSymbolTable\n70\n4\n100\nAcDbDimStyleTable\n71\n2\n340\n27\n340\n137\n0\nDIMSTYLE\n105\n1B0\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nStandard\n70\n0\n340\n11\n0\nDIMSTYLE\n105\n137\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nAnnotative\n70\n0\n40\n0.0\n41\n2.5\n42\n0.625\n43\n3.75\n44\n1.25\n73\n0\n74\n0\n77\n1\n78\n8\n140\n2.5\n141\n2.5\n143\n0.03937007874016\n147\n0.625\n171\n3\n172\n1\n271\n2\n272\n2\n274\n3\n278\n44\n283\n0\n284\n8\n340\n11\n1001\nAcadAnnotative\n1000\nAnnotativeData\n1002\n{\n1070\n1\n1070\n1\n1002\n}\n1001\nACAD_DSTYLE_DIMJAG\n1070\n388\n1040\n1.5\n1001\nACAD_DSTYLE_DIMTALN\n1070\n392\n1070\n0\n0\nDIMSTYLE\n105\n27\n330\nA\n100\nAcDbSymbolTableRecord\n100\nAcDbDimStyleTableRecord\n2\nISO-25\n70\n0\n41\n2.5\n42\n0.625\n43\n3.75\n44\n1.25\n73\n0\n74\n0\n77\n1\n78\n8\n140\n2.5\n141\n2.5\n143\n0.03937007874016\n147\n0.625\n171\n3\n172\n1\n271\n2\n272\n2\n274\n3\n278\n44\n283\n0\n284\n8\n340\n11\n0\nENDTAB\n0\nTABLE\n2\nBLOCK_RECORD\n5\n1\n330\n0\n100\nAcDbSymbolTable\n70\n2\n0\nBLOCK_RECORD\n5\n1F\n102\n{ACAD_XDICTIONARY\n360\n1CE\n102\n}\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Model_Space\n340\n22\n70\n0\n280\n1\n281\n0\n0\nBLOCK_RECORD\n5\nD2\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Paper_Space\n340\nD3\n70\n0\n280\n1\n281\n0\n0\nBLOCK_RECORD\n5\nD6\n330\n1\n100\nAcDbSymbolTableRecord\n100\nAcDbBlockTableRecord\n2\n*Paper_Space0\n340\nD7\n70\n0\n280\n1\n281\n0\n0\nENDTAB\n0\nENDSEC\n0\nSECTION\n2\nBLOCKS\n0\nBLOCK\n5\n20\n330\n1F\n100\nAcDbEntity\n8\n0\n100\nAcDbBlockBegin\n2\n*Model_Space\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Model_Space\n1\n\n0\nENDBLK\n5\n21\n330\n1F\n100\nAcDbEntity\n8\n0\n100\nAcDbBlockEnd\n0\nBLOCK\n5\nD4\n330\nD2\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockBegin\n2\n*Paper_Space\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Paper_Space\n1\n\n0\nENDBLK\n5\nD5\n330\nD2\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockEnd\n0\nBLOCK\n5\nD8\n330\nD6\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockBegin\n2\n*Paper_Space0\n70\n0\n10\n0.0\n20\n0.0\n30\n0.0\n3\n*Paper_Space0\n1\n\n0\nENDBLK\n5\nD9\n330\nD6\n100\nAcDbEntity\n67\n1\n8\n0\n100\nAcDbBlockEnd\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n';
 		let layerNum = 1;
 		let imageDefArray = [];
 		
+		
 		for (let layerName in this.layers){
 		    let layer = this.layers[layerName];
+			//console.log(this.layers[layerName]);
 		    s += layer.shapeToString(layerNum,this.imageArray);
 			layerNum++;
 		    // let shapes = layer.getShapes();
@@ -167,8 +164,8 @@ class Basic{
 		s+='71\n4\n340\n16\n90\n25\n62\n256\n340\n16\n90\n25\n62\n256\n280\n0\n';
 		
 		//插入图片def
-		for(let i=0; i<imageArray.length; i++){
-			let currentImageDef = imageDefArray[i];
+		for(let i=0; i<this.imageArray.length; i++){
+			let currentImageDef = this.imageArray[i];
 			s += currentImageDef.imageToDxfString();
 		}
 		s += '0\nLAYOUT\n5\n22\n102\n{ACAD_XDICTIONARY\n360\n205\n102\n}\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\nnone_device\n4\nISO_A4_(210.00_x_297.00_MM)\n6\n\n40\n7.5\n41\n20.0\n42\n7.5\n43\n20.0\n44\n210.0\n45\n297.0\n46\n11.54999923706054\n47\n-13.65000009536743\n48\n0.0\n49\n0.0\n140\n0.0\n141\n0.0\n142\n1.0\n143\n8.704084754739808\n70\n11952\n72\n1\n73\n0\n74\n0\n7\n\n75\n0\n147\n0.1148885871608098\n76\n0\n77\n2\n78\n300\n148\n0.0\n149\n0.0\n100\nAcDbLayout\n1\nModel\n70\n1\n71\n0\n10\n0.0\n20\n0.0\n11\n12.0\n21\n9.0\n12\n0.0\n22\n0.0\n32\n0.0\n14\n0.0\n24\n0.0\n34\n0.0\n15\n0.0\n25\n0.0\n35\n0.0\n146\n0.0\n13\n0.0\n23\n0.0\n33\n0.0\n16\n1.0\n26\n0.0\n36\n0.0\n17\n0.0\n27\n1.0\n37\n0.0\n76\n0\n330\n1F\n331\nEA\n1001\nACAD_PSEXT\n1000\nNone\n1000\nNone\n1000\nNotapplicable\n1000\nThelayoutwillnotbeplottedunlessanewplotterconfigurationnameisselected.\n1070\n0\n0\nLAYOUT\n5\nD3\n102\n{ACAD_REACTORS\n330\n1A\n102\n}\n330\n1A\n100\nAcDbPlotSettings\n1\n\n2\n';
